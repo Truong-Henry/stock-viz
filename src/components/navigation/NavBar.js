@@ -1,9 +1,11 @@
 import React from "react";
+import { Link } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
-// COMPONENTS
+// Components
 import SearchAutoComplete from "./SearchAutoComplete";
 
-// MATERIAL UI
+// Material UI
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -21,7 +23,14 @@ const NavBar = () => {
       <AppBar position="sticky">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Stock Viz
+            <Link
+              component={RouterLink}
+              to="/"
+              color="inherit"
+              underline="none"
+            >
+              Stock Viz
+            </Link>
           </Typography>
           <SearchAutoComplete />
         </Toolbar>
