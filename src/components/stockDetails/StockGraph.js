@@ -24,23 +24,36 @@ const StockGraph = (props) => {
       {
         label: "Value",
         data: filteredData.map((item) => item.value) || 0,
-        backgroundColor: "rgba(0,0,255, 0.2)",
-        borderColor: "rgba(0,0,255, 1.0)",
+        backgroundColor: "rgba(44,62,80, 0.2)",
+        borderColor: "rgba(44,62,80, 1.0)",
         borderWidth: 1,
       },
     ],
   };
 
   const options = {
+    legend: {
+      display: false,
+    },
     maintainAspectRatio: false,
     scales: {
       yAxes: [
         {
           ticks: {
             beginAtZero: true,
+            callback: function (value, index, values) {
+              return value.toLocaleString();
+            },
           },
         },
       ],
+    },
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, chart) => {
+          return tooltipItem.yLabel.toLocaleString();
+        },
+      },
     },
   };
 
