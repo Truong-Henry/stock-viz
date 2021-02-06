@@ -4,6 +4,7 @@ import {
   SET_FORM_VALUE,
   GET_CEO_COMPENSATION,
   GET_ADVANCED_FUNDAMENTALS,
+  GET_MOST_ACTIVE,
   SET_CHECKED_VALUE,
 } from "../actions/types";
 
@@ -21,6 +22,9 @@ const initialState = {
     id: "ceoCompensation",
     name: "CEO Compensation",
   },
+  mostActive: [],
+  topGainers: [],
+  topLosers: [],
 };
 
 const stockReducer = (state = initialState, action) => {
@@ -40,6 +44,8 @@ const stockReducer = (state = initialState, action) => {
       return { ...state, advancedFundamentals: action.payload };
     case GET_CEO_COMPENSATION:
       return { ...state, ceoCompensation: action.payload };
+    case GET_MOST_ACTIVE:
+      return { ...state, [action.id]: action.payload };
     case SET_FORM_VALUE: {
       return {
         ...state,
