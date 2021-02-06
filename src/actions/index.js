@@ -9,6 +9,8 @@ import {
   SET_ACTIVE_TAB,
   // SET_FORM_VALUE,
   SET_CHECKED_VALUE,
+  GET_MOST_ACTIVE,
+  GET_HOME_NEWS,
 } from "./types";
 import iex from "../config/iex";
 
@@ -24,7 +26,9 @@ export const search = (query) => {
 
       const response = await fetch(url);
       const data = await response.json();
-      const filteredData = data.filter((data) => data.region === "US"); // Filter for US stocks
+      // Filter for US stocks
+      const filteredData = data.filter((data) => data.region === "US");
+
       dispatch({ type: SEARCH, payload: filteredData });
     };
   }
@@ -88,23 +92,37 @@ export const getCeoCompensation = () => {
     const symbolOfSelectedData = getState().stock["ceoCompensation"]; // get the symbol from the obj data
     const currentSymbol = getState().stock.symbol;
 
+    // Don't retrieve data if symbol is same as current data symbol
     if (currentSymbol === symbolOfSelectedData.symbol.value) {
-      // Don't retrieve data if symbol === current data symbol
       return;
     }
+
     const url = `${iex.base_url}/stock/${currentSymbol}/ceo-compensation?${iex.api_token}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     const updatedObj = JSON.parse(JSON.stringify(symbolOfSelectedData)); // Deep clone to avoid copy reference
     Object.keys(updatedObj).forEach((key) => {
       // Each key in updatedObj will look for key in response data
       updatedObj[key]["value"] = data[key]; // Mutate new data
     });
-    console.log(updatedObj);
+
     dispatch({
       type: GET_CEO_COMPENSATION,
       payload: updatedObj,
+    });
+  };
+};
+
+export const getMostActive = (id, type) => {
+  return async (dispatch) => {
+    const url = `${iex.base_url}/stock/market/list/${type}?${iex.api_token}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    dispatch({
+      type: GET_MOST_ACTIVE,
+      id: id,
+      payload: data,
     });
   };
 };
@@ -121,10 +139,25 @@ export const setActiveTab = (index, id, name) => {
 export const setCheckedValue = (key) => {
   return (dispatch, getState) => {
     const activeTab = getState().stock.activeTab.id;
+
     dispatch({
       type: SET_CHECKED_VALUE,
       id: activeTab,
       key: key,
+    });
+  };
+};
+
+export const getHomeNews = () => {
+  return async (dispatch) => {
+    const url = `http://newsapi.org/v2/top-headlines?country=us&apiKey=89828a2b12684f13ac271db3e1d43396`;
+    const response = await fetch(url);
+    const data = await response.json();
+    const { articles } = data;
+
+    dispatch({
+      type: GET_HOME_NEWS,
+      payload: articles,
     });
   };
 };
