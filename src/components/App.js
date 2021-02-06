@@ -1,33 +1,41 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-// COMPONENTS
+// Components
 import Navbar from "./navigation/NavBar";
-import StockDetail from "./stockDetails/StockDetail";
+import StockDetail from "./stockdetails/StockDetail";
+import Home from "./homepage/Home";
 
-// MATERIAL UI
+// Material UI
 import { CssBaseline } from "@material-ui/core";
+import { ThemeProvider } from "@material-ui/styles";
+import theme from "./Theme";
 
 const App = () => {
   return (
-    <Router>
-      <div className="App">
-        {/* Normalize CSS */}
-        <CssBaseline />
-        <Navbar />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <div className="App">
+          {/* Normalize CSS */}
+          <CssBaseline />
+          <Navbar />
 
-        <div className="main-content">
-          <Switch>
-            <Route exact path="/stock/:symbol">
-              <StockDetail />
-            </Route>
-            <Route path="/form">
-              <div>Div</div>
-            </Route>
-          </Switch>
+          <div className="main-content">
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/stock/:symbol">
+                <StockDetail />
+              </Route>
+              <Route path="/form">
+                <div>Div</div>
+              </Route>
+            </Switch>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 };
 
