@@ -19,7 +19,6 @@ const StockDataTable = (props) => {
       let row = stock[activeTab.id][key];
       // Take label, value, etc. from e.g stock["ceoCompensation"]["salary"]
       let { type, label, value, description, checked } = row;
-      value = value.toLocaleString();
       tableData.push([key, type, label, value, description]);
       // type, label, value, description
       if (checked === true) rowsSelected.push(index);

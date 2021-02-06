@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     color: theme.palette.text.secondary,
-    marginBottom: "1.5em",
   },
 }));
 
@@ -46,8 +45,9 @@ const StockDetail = (props) => {
   }, [setStock, symbol]);
 
   useEffect(() => {
-    // Get active tab's id for switch cases
+    // Get active tab's id
     const dataId = activeTab.id;
+    // Switch case based on id passed
     const getData = (id) => {
       switch (id) {
         case "advancedFundamentals":
